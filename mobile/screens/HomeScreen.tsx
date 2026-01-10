@@ -1,0 +1,1 @@
+// Update useEffect:\nuseEffect(() => {\n  initModel().then(updateBite);\n  // ...\n}, []);\nconst updateBite = async () => {\n  const temp = 72; // From OpenWeather stub\n  const features = [temp/100, 30.2/35, 0.85, 6/24];\n  const index = await getBiteIndex(features as any); // TS fix\n  // ...\n};
