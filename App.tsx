@@ -11,6 +11,7 @@ import LogisticsScreen from '@/src/screens/LogisticsScreen';
 import ProfileScreen from '@/src/screens/ProfileScreen'; // TODO: Create
 
 import { StatusBar } from 'expo-status-bar';
+import { AuthProvider } from '@/src/context/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,16 +33,18 @@ export default function App() {
     <SafeAreaProvider>
       <PaperProvider theme={theme}>
         <StatusBar style="light" />
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
-            <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
-            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="Logistics" component={LogisticsScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AuthProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
+              <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
+              <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Map" component={MapScreen} />
+              <Stack.Screen name="Logistics" component={LogisticsScreen} />
+              <Stack.Screen name="Profile" component={ProfileScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AuthProvider>
       </PaperProvider>
     </SafeAreaProvider>
   );
