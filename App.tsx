@@ -4,10 +4,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import SplashScreen from '@/src/screens/SplashScreen';
+import OnboardingScreen from '@/src/screens/OnboardingScreen';
 import HomeScreen from '@/src/screens/HomeScreen';
 import MapScreen from '@/src/screens/MapScreen';
 import LogisticsScreen from '@/src/screens/LogisticsScreen';
 import ProfileScreen from '@/src/screens/ProfileScreen'; // TODO: Create
+
 import { StatusBar } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +35,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
             <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="Logistics" component={LogisticsScreen} />
