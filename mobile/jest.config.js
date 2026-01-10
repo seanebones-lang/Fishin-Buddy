@@ -1,0 +1,1 @@
+export default {\n  preset: 'jest-expo',\n  transformIgnorePatterns: [\n    'node_modules/(?!(jest-)?react-native|@react-native(-community)?|@react-navigation|@react-native-async-storage|@rnmapbox|expo|@tensorflow)',\n  ],\n  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],\n};
