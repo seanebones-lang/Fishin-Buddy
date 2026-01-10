@@ -5,8 +5,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import SplashScreen from '@/src/screens/SplashScreen';
 import HomeScreen from '@/src/screens/HomeScreen';
-import MapScreen from '@/src/screens/MapScreen'; // TODO
-
+import MapScreen from '@/src/screens/MapScreen';
+import LogisticsScreen from '@/src/screens/LogisticsScreen';
+import ProfileScreen from '@/src/screens/ProfileScreen'; // TODO: Create
 import { StatusBar } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
@@ -17,7 +18,10 @@ const theme = {
     ...DefaultTheme.colors,
     primary: 'rgb(0, 102, 204)',
     onPrimary: 'rgb(255, 255, 255)',
-    surface: 'rgba(255,255,255,0.1)',
+    surface: 'rgba(255,255,255,0.12)',
+    elevation: {
+      level1: 'rgba(0,0,0,0.08)',
+    },
   },
 };
 
@@ -27,11 +31,12 @@ export default function App() {
       <PaperProvider theme={theme}>
         <StatusBar style="light" />
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'fade' }}>
-            <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
+            <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
-            {/* TODO: Logistics, Profile */}
+            <Stack.Screen name="Logistics" component={LogisticsScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
