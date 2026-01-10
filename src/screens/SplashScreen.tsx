@@ -26,7 +26,7 @@ const SplashScreen = () => {
     const timer = setTimeout(() => {
       opacity.value = withTiming(0, { duration: 500 }, () => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        navigation.replace('Home'); // TODO: Home screen
+        navigation.replace('Onboarding');
       });
     }, 2000);
 
