@@ -4,6 +4,7 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-na
 import { IconButton } from 'react-native-paper';
 import * as Haptics from 'expo-haptics';
 import { usePredictions } from '../hooks/usePredictions';
+import { useAuth } from '../context/AuthContext';
 import BiteGauge from '@/src/components/BiteGauge';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -28,8 +29,10 @@ const getGaugeColor = (percent: number): any => {
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
-  const { data, loading, error } = usePredictions(userId);
+const HomeScreen = () => {
+  const { userId, loading: authLoading } = useAuth();
+  const { data, loading: predictionsLoading, error } = usePredictions(userId || 'demo_user');
+
   const gaugeScale = useSharedValue(0);
   const containerOpacity = useSharedValue(0);
 
@@ -44,6 +47,8 @@ const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
     Haptics.selectionAsync();
   }, []);
 
+  const loading = authLoading || predictionsLoading;
+
   if (loading) {
     return (
       <View className="flex-1 bg-gradient-to-b from-primary to-gradient-start justify-center items-center p-6">
@@ -57,7 +62,7 @@ const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
     return (
       <View className="flex-1 bg-gradient-to-b from-primary to-gradient-start justify-center items-center p-6">
         <Text className="text-white text-xl font-bold drop-shadow-lg">{error}</Text>
-        <TouchableOpacity className="mt-4 bg-white/20 p-4 rounded-2xl" onPress={() => window.location.reload()}>
+        <TouchableOpacity className="mt-4 bg-white/20 p-4 rounded-2xl" onPress={() => location.reload()}>
           <Text className="text-white font-bold">Retry</Text>
         </TouchableOpacity>
       </View>
@@ -84,6 +89,7 @@ const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
 
   return (
     <View className="flex-1 bg-gradient-to-b from-primary to-gradient-start p-6">
+      {/* Header */}
       <View className="flex-row justify-between items-center mb-8 pt-4">
         <Text className="text-white/90 text-xl font-bold drop-shadow-lg">🪝 Frenzy Alert!</Text>
         <View className="flex-row items-center">
@@ -92,6 +98,7 @@ const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
         </View>
       </View>
 
+      {/* Bite Gauge */}
       <Animated.View className="items-center mb-12" style={gaugeStyle}>
         <View className="relative w-64 h-64">
           <BiteGauge value={biteIndex} size={256} color={getGaugeColor(biteIndex)} />
@@ -102,6 +109,7 @@ const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
         </View>
       </Animated.View>
 
+      {/* Top Spots */}
       <Text className="text-white text-xl font-bold mb-6 drop-shadow-lg">Top Nearby Spots</Text>
       <FlatList
         data={spots}
@@ -115,6 +123,7 @@ const HomeScreen = ({ userId = 'user_123' }: { userId?: string }) => {
         decelerationRate="fast"
       />
 
+      {/* Hourly */}
       <Text className="text-white text-xl font-bold mb-6 drop-shadow-lg">Hourly Forecast</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="pb-4">
         {hourlyData.map((item, i) => (
