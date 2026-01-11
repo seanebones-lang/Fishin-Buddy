@@ -116,8 +116,8 @@ const ProfileScreen = () => {
         <TouchableOpacity className="flex-row items-center p-4 bg-white/20 backdrop-blur-sm rounded-3xl mb-4 shadow-xl shadow-primary/30"
           onPress={() => Haptics.selectionAsync()}
         >
-          <IconButton icon="crown-outline" iconColor="warning" />
-          <Text className="text-white font-bold text-lg flex-1 drop-shadow-lg">Go Premium</Text>
+          <IconButton icon="settings-outline" iconColor="white" />
+          <Text className="text-white font-bold text-lg flex-1 drop-shadow-lg">Settings</Text>
           <IconButton icon="chevron-right" iconColor="white/70" size={20} />
         </TouchableOpacity>
       </View>

@@ -1,12 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
+// This file is deprecated - use src/services/supabase.ts instead
+// Keeping for backwards compatibility during migration
+import { supabase } from '../services/supabase';
 
-import Constants from 'expo-constants'
-
-const supabaseUrl = Constants.expoConfig?.extra?.supabaseUrl ?? process.env.EXPO_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = Constants.expoConfig?.extra?.supabaseAnonKey ?? process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    storageKey: 'supabase.auth.token',
-  },
-})
+export { supabase };

@@ -11,7 +11,9 @@ import LogisticsScreen from '@/src/screens/LogisticsScreen';
 import ProfileScreen from '@/src/screens/ProfileScreen'; // TODO: Create
 
 import { StatusBar } from 'expo-status-bar';
-import { AuthProvider } from '@/src/context/AuthContext';
+import { AppProvider } from '@/src/context/AppContext';
+import { ErrorBoundary } from '@/src/components/ErrorBoundary';
+import { logError, normalizeError, ErrorCategory } from '@/src/utils/errorHandler';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,23 +31,32 @@ const theme = {
 };
 
 export default function App() {
+  const handleError = (error: Error, errorInfo: React.ErrorInfo) => {
+    const appError = normalizeError(error, ErrorCategory.UNKNOWN);
+    logError(appError, {
+      componentStack: errorInfo.componentStack,
+    });
+  };
+
   return (
-    <SafeAreaProvider>
-      <PaperProvider theme={theme}>
-        <StatusBar style="light" />
-        <AuthProvider>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
-              <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
-              <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Map" component={MapScreen} />
-              <Stack.Screen name="Logistics" component={LogisticsScreen} />
-              <Stack.Screen name="Profile" component={ProfileScreen} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </AuthProvider>
-      </PaperProvider>
-    </SafeAreaProvider>
+    <ErrorBoundary onError={handleError}>
+      <SafeAreaProvider>
+        <PaperProvider theme={theme}>
+          <StatusBar style="light" />
+          <AppProvider>
+            <NavigationContainer>
+              <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
+                <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
+                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Map" component={MapScreen} />
+                <Stack.Screen name="Logistics" component={LogisticsScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </AppProvider>
+        </PaperProvider>
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

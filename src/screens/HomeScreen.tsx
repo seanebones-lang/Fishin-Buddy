@@ -4,8 +4,9 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-na
 import { IconButton } from 'react-native-paper';
 import * as Haptics from 'expo-haptics';
 import { usePredictions } from '../hooks/usePredictions';
-import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
 import BiteGauge from '@/src/components/BiteGauge';
+import { useCallback } from 'react';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -30,8 +31,8 @@ const getGaugeColor = (percent: number): any => {
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const HomeScreen = () => {
-  const { userId, loading: authLoading } = useAuth();
-  const { data, loading: predictionsLoading, error } = usePredictions(userId || 'demo_user');
+  const { prefs, loading: appLoading } = useApp();
+  const { data, loading: predictionsLoading, error, refetch } = usePredictions(prefs);
 
   const gaugeScale = useSharedValue(0);
   const containerOpacity = useSharedValue(0);
@@ -47,7 +48,7 @@ const HomeScreen = () => {
     Haptics.selectionAsync();
   }, []);
 
-  const loading = authLoading || predictionsLoading;
+  const loading = appLoading || predictionsLoading;
 
   if (loading) {
     return (
@@ -58,11 +59,15 @@ const HomeScreen = () => {
     );
   }
 
+  const handleRetry = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   if (error) {
     return (
       <View className="flex-1 bg-gradient-to-b from-primary to-gradient-start justify-center items-center p-6">
         <Text className="text-white text-xl font-bold drop-shadow-lg">{error}</Text>
-        <TouchableOpacity className="mt-4 bg-white/20 p-4 rounded-2xl" onPress={() => location.reload()}>
+        <TouchableOpacity className="mt-4 bg-white/20 p-4 rounded-2xl" onPress={handleRetry}>
           <Text className="text-white font-bold">Retry</Text>
         </TouchableOpacity>
       </View>
