@@ -1,1 +1,8 @@
-// Append:\n[![V1](https://img.shields.io/badge/V1-ML%20Live-brightgreen)]\n\n## V1: LSTM Predictions + Tests\nexpo start --dev-client (custom build for tfjs)
+# Fishin' Buddy
+[![Tests](https://github.com/seanebones-lang/Fishin-Buddy/actions/workflows/ci.yml/badge.svg)](https://github.com/seanebones-lang/Fishin-Buddy/actions)
+
+AI Fishing Coach: Bite predictions via on-device ML.
+
+## Quickstart
+`yarn && eas build --profile preview`
+Demo: https://bitecast.expo.dev
