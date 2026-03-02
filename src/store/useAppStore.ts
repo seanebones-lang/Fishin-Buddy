@@ -1,0 +1,1 @@
+/* Extend prior: + offlineCatches: Realm.Collection, syncQueue: async () => { ... await supabase.from('catches').upsert(queue); } */
